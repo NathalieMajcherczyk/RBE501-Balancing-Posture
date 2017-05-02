@@ -146,8 +146,6 @@ for i=1:n
 tau(i)= dL_ddq_dt(i) - dL_dq(i);
 end
 
-tau
-
 M=sym(zeros(n,n));
 eta=sym(zeros(n,1));
 V=sym(zeros(n,1));
@@ -163,11 +161,11 @@ for i=1:n
         grav(i,:)=cV(end).*TV(end); % gravity term
 end
 
-M=simplify(M)
+%M=simplify(M)
 
-V=simplify(V)
+%V=simplify(V)
 
-grav=simplify(grav)
+%grav=simplify(grav)
 
 % Verifications
 
@@ -178,12 +176,21 @@ for i=1:n
     V=subs(V,dq(i),dq_char(i,:));
     V=subs(V,q(i),q_char(i,:));
     grav=subs(grav,q(i),q_char(i,:));
-    tau=subs(tau,q(i),q_char(i,:));
     tau=subs(tau,dq(i),dq_char(i,:));
     tau=subs(tau,ddq(i),ddq_char(i,:));
 end
+
 %mass_matrix=matlabFunction(M,'File','MassMatrix'); 
 %coriolis=matlabFunction(V,'File','CoriolisTerm');
 %gravity=matlabFunction(grav,'File','GravityTerm');
 
-tau=matlabFunction(tau,'File','InvDynNum');
+tau=subs(tau,q1,q_char(1,:));
+tau=subs(tau,q2,q_char(2,:));
+tau=subs(tau,q3,q_char(3,:));
+tau=subs(tau,q4,q_char(4,:));
+tau=subs(tau,q5,q_char(5,:));
+tau=subs(tau,q6,q_char(6,:));
+tau=subs(tau,q7,q_char(7,:));
+
+tau
+%tau=matlabFunction(tau,'File','InvDynNum');
